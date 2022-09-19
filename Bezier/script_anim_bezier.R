@@ -110,7 +110,7 @@ ComputeBezier <- function(Abscisses,
                                                  ungroup() |> 
                                                  mutate(etape = seq_len(NbInterpolation) + NbInterpolation * (I - 1),
                                                         deg = degre,
-                                                        ind = index, 
+                                                        ind = index + length(XX) * (I - 1), 
                                                         couleur_anim = PaletteBezier[degre])
                                              })
                                    })
@@ -214,59 +214,3 @@ AnimerBezier <- function(TableauBezier,
   
 }
 
-# ggplot(TabBezier, aes(bezier_abscisse, bezier_ordonnee, color = couleur_anim)) +
-#   geom_point() +
-#   scale_color_identity()
-# 
-# saveGIF(expr = {
-#   for (i in 1:50) {
-#     plot(ggplot(data = NULL) + xlim(c(0, 50)) + annotate("point", x = i, y = i))
-# }}, movie.name = "test_test.gif",
-# interval = .25,
-# ani.width = 600,
-# ani.height = 600)
-# 
-# saveGIF(expr = {
-#   for (img in seq_len(50)) {
-#     plot(ggplot(data = NULL) +
-#            annotate("point", x = Abscisses, y = Ordonnees, color = "#e40cbd", shape = 15, size = 2) +
-#            map(seq_len(Degre),
-#                function(degre) {
-#                  if (degre == max(Degre)) {
-#                    list(
-#                      geom_path(data = TabBezier |> filter(etape <= img, deg == degre), aes(bezier_abscisse, bezier_ordonnee), 
-#                                color = "#bfbabe", size = 1),
-#                      annotate("point", size = 2, color = couleurs[degre],
-#                               x = TabBezier |> filter(etape == img, deg == degre) |> pull(bezier_abscisse),
-#                               y = TabBezier |> filter(etape == img, deg == degre) |> pull(bezier_ordonnee))
-#                    )
-#                  } else {
-#                    list(
-#                      annotate("point", size = 2, color = couleurs[degre],
-#                               x = TabBezier |> filter(etape == img, deg == degre) |> pull(bezier_abscisse),
-#                               y = TabBezier |> filter(etape == img, deg == degre) |> pull(bezier_ordonnee)),
-#                      pmap(list(x = TabBezier |> filter(etape == img, deg == degre) |> pull(bezier_abscisse) %>% '['(-length(.)),
-#                                xend = TabBezier |> filter(etape == img, deg == degre) |> pull(bezier_abscisse) %>% '['(-1),
-#                                y = TabBezier |> filter(etape == img, deg == degre) |> pull(bezier_ordonnee) %>% '['(-length(.)),
-#                                yend = TabBezier |> filter(etape == img, deg == degre) |> pull(bezier_ordonnee) %>% '['(-1)),
-#                           function(x, xend, y, yend) {
-#                             annotate("segment", size = .8, x = x, xend = xend, y = y, yend = yend, color = couleurs[degre])
-#                           })
-#                    )
-#                  }
-#                }) +
-#            coord_cartesian(xlim = c(min(TabBezier$bezier_abscisse), max(TabBezier$bezier_abscisse)),
-#                            ylim = c(min(TabBezier$bezier_ordonnee), max(TabBezier$bezier_ordonnee))))
-#   }
-# }, movie.name = "~/bezier_curve.gif",
-# interval = .2,
-# ani.width = 600,
-# ani.height = 600)
-# 
-# 
-# data.frame(.poids = seq(0, 1, length.out = 50)) |> 
-#   rowwise() |> 
-#   mutate(XX = InterpBezier(Abscisses, .poids, 2),
-#          YY = InterpBezier(Ordonnees, .poids, 2)) |> 
-#   ggplot(aes(XX, YY)) + geom_path() + geom_point() +
-#   annotate("point", x = Abscisses, y = Ordonnees, color = "#e40cbd", shape = 15, size = 2)
