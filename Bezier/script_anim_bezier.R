@@ -12,7 +12,8 @@ Pkg <- c(
   "animation", # Créer un GIF avec une boucle de plots
   "progress", # Barre de progression
   "beepr", # Pour faire le son de micro-onde à la fin
-  "rstudioapi" # Retrouver le chemin du script
+  "rstudioapi", # Retrouver le chemin du script
+  "shiny"
 )
 NouveauxPkg <- Pkg[Pkg %nin% installed.packages()]
 lapply(NouveauxPkg, install.packages)
@@ -281,6 +282,3 @@ ImagerBezier <- function(TableauBezier,
   invisible(PlotBezier)
   
 }
-
-ggsave(EssaiImgBezier, filename = paste0(dirname(rstudioapi::getSourceEditorContext()$path), "/bezier_marmotte_raibow.png"),
-       device = "png", height = 8, width = 8)
