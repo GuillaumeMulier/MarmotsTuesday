@@ -38,13 +38,19 @@ InterpBezier <- function(Ancres, Poids, Degre) {
 
 
 # Fonction pour séparer un vecteur en des vecteurs plus petits à des points d'intersections
-DelimPts <- function(Vecteur, Longueur) {
+# ou séparer le vecteur pour avoir une courbe par élément de la liste
+DelimPts <- function(Vecteur, Longueur, Separes = FALSE) {
   
   # On cherche le nombre de Bezier curves
-  NbVec <- (length(Vecteur) - 1) / (Longueur - 1)
-  Debuts <- seq(0, length(Vecteur) - 1, Longueur - 1) + 1
-  Fins <- Debuts[-1]
-  Debuts <- Debuts[-length(Debuts)]
+  if (!Separes) { # Continuité entre les points spécifiés
+    NbVec <- (length(Vecteur) - 1) / (Longueur - 1)
+    Debuts <- seq(0, length(Vecteur) - 1, Longueur - 1) + 1
+    Fins <- Debuts[-1]
+    Debuts <- Debuts[-length(Debuts)]
+  } else {
+    Debuts <- seq(1, length(Vecteur), Longueur)
+    Fins <- Debuts + Longueur - 1
+  }
   # Liste des points pour chaque courbe
   ListeVecteurs <- map2(Debuts, Fins, ~ Vecteur[.x:.y])
   
@@ -68,27 +74,30 @@ AdjPts <- function(Vecteur, Longueur) {
 ComputeBezier <- function(Abscisses,
                           Ordonnees,
                           Degre = 2L,
-                          NbInterpolation = 50L) {
+                          NbInterpolation = 50L,
+                          FctCouleur = NatParksPalettes::natparks.pals,
+                          CouleurCourbe = "#000000") {
   
   # Checks des arguments
-  stopifnot(length(Abscisses) == length(Ordonnees), is.numeric(Abscisses), is.numeric(Ordonnees))
+  stopifnot(length(Abscisses) == length(Ordonnees), is.numeric(Abscisses), is.numeric(Ordonnees), is.function(FctCouleur))
   if (!is.numeric(Degre) || Degre %% 1 != 0 || Degre < 1)
     stop("\"Degre\" représente le degré des polynômes de Bézier et doit être un entier entre 1 et le nombre de points - 1.
          La marmotte va devoir changer ça, mais souvent on ne va pas plus loin que 3 ou 4.", call. = FALSE)
   if (!is.numeric(NbInterpolation) || NbInterpolation %% 1 != 0 || NbInterpolation < 1)
     stop("\"NbInterpolation\" représente le nombre de points pour approximer une droite.
          La marmotte essaye de ne pas faire une courbe de Bézier ? Il faut mettre un entier plus grand que 1.", call. = FALSE)
-  if (length(Abscisses) %% Degre != 1)
-    stop(glue("Désolé ma marmotte si c'est un peu compliqué, il faut qu'il y ait un nombre de points proportionnel au degré et un point en plus.
-              Par exemple, tu as choisi une courbe de degré {Degre} donc tu peux prendre {paste(1 + (1:3) * Degre, collapse = ' ou ')} points."),
+  if ((length(Abscisses) %% Degre != 1) & (length(Abscisses) %% (Degre + 1) != 0))
+    stop(glue("Désolé ma marmotte si c'est un peu compliqué, il faut qu'il y ait un nombre de points proportionnel au degré et un point en plus ; ou alors donner les {paste0(Degre + 1)} points par segment.
+              Par exemple, tu as choisi une courbe de degré {Degre} donc tu peux prendre {paste(1 + (1:3) * Degre, collapse = ' ou ')} points ou encore {paste((1:3) * (Degre + 1), collapse = ' ou ')}."),
          call. = FALSE)
   
   # Convertir Abscisses et Ordonnees en des sets de points utilisés pour la courbe de Bézier principale
-  AbscissesInteret <- DelimPts(Abscisses, Degre + 1)
-  OrdonneesInteret <- DelimPts(Ordonnees, Degre + 1)
+  # Ajout de l'argument au cas où on veut des points discontinus
+  AbscissesInteret <- DelimPts(Abscisses, Degre + 1, length(Abscisses) %% (Degre + 1) == 0)
+  OrdonneesInteret <- DelimPts(Ordonnees, Degre + 1, length(Abscisses) %% (Degre + 1) == 0)
   
   # Définir une palette de couleurs
-  PaletteBezier <- c(PallettePerso[seq_len(Degre - 1)], "#000000")
+  PaletteBezier <- c(PallettePerso[seq_len(Degre - 1)], CouleurCourbe)
   
   # On va faire le calcul pour chaque point de début d'interpolation et pour chaque degré de polynome de Bézier
   TabBezier <-  map_dfr(seq_along(AbscissesInteret), # On va d'abord boucler sur les différentes courbes de Bézier qu'on souhaite
@@ -111,7 +120,8 @@ ComputeBezier <- function(Abscisses,
                                                  mutate(etape = seq_len(NbInterpolation) + NbInterpolation * (I - 1),
                                                         deg = degre,
                                                         ind = index + length(XX) * (I - 1), 
-                                                        couleur_anim = PaletteBezier[degre])
+                                                        couleur_anim = PaletteBezier[degre],
+                                                        couleur_statique = natparks.pals("Arches", NbInterpolation, "continuous", (-1) ^ I))
                                              })
                                    })
                          })
@@ -214,3 +224,63 @@ AnimerBezier <- function(TableauBezier,
   
 }
 
+
+# Fonction qui crée le graphique et enregistre l'image si on lui spécifie un chemin
+ImagerBezier <- function(TableauBezier,
+                         CouleurIntersect = "#710367",
+                         CouleurBezier = "#000000",
+                         CouleurFond = PallettePerso[4]) {
+  
+  if (!inherits(TableauBezier, "Bezier"))
+    stop("Il faut donner un tableau créé avec la fonction ComputeBezier. Je vois que la marmotte cherche encore à filouter :)", call. = FALSE)
+  
+  # Récupération du degré de polynôme et des indices des droites à tracer
+  DegreMax <- attr(TableauBezier, "DegreMax")
+  VecDroites <- TableauBezier |> 
+    as_tibble() |> 
+    filter(deg >= DegreMax - 1) |> 
+    pull(ind) |> 
+    unique() |> 
+    sort()
+  
+  PlotBezier <- ggplot(data = NULL) +
+    # D'abord on trace les arcs en ciel
+    map2(seq(1, length(VecDroites), 2),
+         seq(2, length(VecDroites), 2),
+         function(Debut, Fin) {
+           geom_segment(data = bind_cols(TableauBezier[TableauBezier$deg == (DegreMax - 1) & TableauBezier$ind == Debut, ] |> 
+                                           as_tibble() |> 
+                                           select(x = bezier_abscisse, y = bezier_ordonnee),
+                                         TableauBezier[TableauBezier$deg == (DegreMax - 1) & TableauBezier$ind == Fin, ] |>
+                                           as_tibble() |> 
+                                           select(xend = bezier_abscisse, yend = bezier_ordonnee, couleur_statique)),
+                        mapping = aes(x = x, xend = xend, y = y, yend = yend, color = couleur_statique), 
+                        size = .9, alpha = .75)
+         }) +
+    # La couleur est notée dans le tableau
+    scale_color_identity() +
+    theme_void() +
+    theme(plot.background = element_rect(fill = CouleurFond, color = CouleurFond)) +
+    coord_fixed(ratio = 1, xlim = c(min(TableauBezier$bezier_abscisse), max(TableauBezier$bezier_abscisse)),
+                ylim = c(min(TableauBezier$bezier_ordonnee), max(TableauBezier$bezier_ordonnee))) +
+    # Là c'est la couleur des contours pour l'arc en ciel
+    geom_path(data = TableauBezier |> 
+                as_tibble() |> 
+                filter(deg == (DegreMax - 1)),
+              mapping = aes(bezier_abscisse, bezier_ordonnee, group = factor(ind)),
+              color = CouleurIntersect, size = .9) +
+    # Et enfin on met la courbe de Bézier sur le graphique
+    annotate("point", x = attr(TableauBezier, "pointsX"), y = attr(TableauBezier, "pointsY"), size = 2.5, shape = 18, color = CouleurIntersect) +
+    geom_path(data = TableauBezier[TableauBezier$deg == DegreMax, ], aes(bezier_abscisse, bezier_ordonnee, group = ind), 
+              size = 1.2, color = CouleurBezier)
+  
+  # Affichage à l'écran
+  plot(PlotBezier)
+  
+  # Conserver le plot au cas où on veut l'enregistrer
+  invisible(PlotBezier)
+  
+}
+
+ggsave(EssaiImgBezier, filename = paste0(dirname(rstudioapi::getSourceEditorContext()$path), "/bezier_marmotte_raibow.png"),
+       device = "png", height = 8, width = 8)
