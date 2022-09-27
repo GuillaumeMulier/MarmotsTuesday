@@ -19,7 +19,8 @@ Query <- EUtilsSummary(paste(Auteurs$requete, collapse = " OR "),
                        db = "pubmed",
                        datetype = "pdat",
                        mindate = 2021,
-                       maxdate = 2021)
+                       maxdate = 2021) # un warning, mais ça a l'air de marcher donc je ne sais pas trop ^^
+# Si jamais tes warnings se tranforment en erreurs, tape en console options(warn = 0)
 Articles <- EUtilsGet(Query)
 
 # Recréer la norme Vancouver (s'il y a des erreurs, je te laisse changer, notamment s'il y a des autres types qu'articles, etc.)
@@ -68,4 +69,4 @@ walk(seq_along(ArticleOfficer),
      })
 
 # Finalement on sauvegarde et on espère que ça va marcher lol
-print(Document, target = "test.docx")
+print(Document, target = paste0(dirname(rstudioapi::getSourceEditorContext()$path), "/biblio_marmotte.docx"))
