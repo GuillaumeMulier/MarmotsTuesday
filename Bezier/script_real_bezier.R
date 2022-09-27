@@ -15,7 +15,7 @@ YY <- c(0, -8, -9, 1)
 # On utilise la fonction pour obtenir le tableau
 TabAnim <- ComputeBezier(XX, YY, Degre = 3L, NbInterpolation = 200L)
 
-# Et on fait une animation qu'on peut saubegarder :p
+# Et on fait une animation qu'on peut sauvegarder :p
 AnimerBezier(TabAnim, Duree = 10, FichierGIF = "bezier_marmanime")
 
 
@@ -35,3 +35,6 @@ CourbeBezier <- ImagerBezier(TabImg)
 ggsave(CourbeBezier, 
        filename = paste0(dirname(rstudioapi::getSourceEditorContext()$path), "/bezier_marmotte_coeur.png"),
        device = "png", height = 8, width = 8)
+
+# Essayer de l'animer pour voir
+AnimerBezier(TabImg, Duree = 10, FichierGIF = "bezier_queur")
