@@ -41,6 +41,7 @@ ArticlesChar <- paste0(
   YearArticleDate(Articles), " ; ", Volume(Articles), "(",
   Issue(Articles), ") : ", MedlinePgn(Articles), ". [PMID : ", PMID(Articles), "]"
 )
+ArticlesChar <- ArticlesChar[grepl("<ancre>", ArticlesChar)]
 
 # Mettre en forme pour officer
 ArticleOfficer <- map(ArticlesChar,

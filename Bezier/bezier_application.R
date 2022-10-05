@@ -8,12 +8,14 @@
 #
 
 library(shiny)
+library(colourpicker)
 
 # Variable globale qui donnera le chemin vers le dossier
 Chemin <- paste0(dirname(rstudioapi::getSourceEditorContext()$path), "/")
 
 # Sourcer le script avec les fonctions
 source(paste0(Chemin, "script_anim_bezier.R"))
+source(paste0(Chemin, "bezier_application_helpers.R"))
 
 ui <- fluidPage(
 
@@ -31,6 +33,15 @@ ui <- fluidPage(
                          ticks = FALSE,
                          step = 1)),
       column(10,
+             )
+    ),
+    
+    fluidRow(
+      tableOutput()
+    ),
+    
+    fluidRow(
+      column(12,
              plotOutput(outputId = "PlotBezier"))
     )
     

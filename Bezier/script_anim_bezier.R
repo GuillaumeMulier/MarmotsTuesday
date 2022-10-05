@@ -1,6 +1,6 @@
 # ---------------------------------------------------------------- #
 # Script de fonctions pour animer et plotter des courbes de Bézier #
-# Créé le 19/09/2022, modifié le 19/09/2022                        #
+# Créé le 19/09/2022, modifié le 01/10/2022                        #
 # ---------------------------------------------------------------- #
 
 
@@ -13,7 +13,8 @@ Pkg <- c(
   "progress", # Barre de progression
   "beepr", # Pour faire le son de micro-onde à la fin
   "rstudioapi", # Retrouver le chemin du script
-  "shiny"
+  "shiny",
+  "colourpicker" # Sélection des couleurs dans shiny
 )
 NouveauxPkg <- Pkg[Pkg %nin% installed.packages()]
 lapply(NouveauxPkg, install.packages)
