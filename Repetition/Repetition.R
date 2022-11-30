@@ -46,7 +46,7 @@ for (i in seq_len(NPoints)) {
   SegmentsATracer[i, 6] <- VecteurCouleurs[i]
   x0 <- x
   y0 <- y
-  Angle <- Angle + 89
+  Angle <- Angle + Increment
 }
 
 # Tracé et sauvegarde
