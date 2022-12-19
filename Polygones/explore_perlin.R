@@ -18,7 +18,7 @@ Rayons <- sort(abs(runif(200, -20, 100)))
 
 Tableau <- map2_dfr(Couleurs, Rayons, 
     function(Couleurs, Rayons) {
-      GenererCercle(Rayons, 200, Couleurs)
+      GenererCercle(Rayons, 500, Couleurs)
     },
     .id = "cercle") %>% 
   mutate(bruit = gen_perlin(xx, yy, frequency = .35),
