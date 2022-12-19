@@ -47,3 +47,5 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+Chaos/ChaosGame/General/donnees_hexa1.RData
+*.RData
