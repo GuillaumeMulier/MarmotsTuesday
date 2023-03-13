@@ -14,21 +14,22 @@ GenererCercle <- function(Rayon, NPoints, Couleur) {
 }
 
 # Les couleurs utilisées
-Couleurs <- natparks.pals("Arches", 2, type = "continuous")
+# Couleurs <- natparks.pals("Arches", 2, type = "continuous")
+Couleurs <- c("#08B0AB", "#7F0C74")
 
 # Faire 3 cercles
-Cercles <- map(c(3, 6, 10), GenererCercle, NPoints = 500, Couleur = "#555555")
+Cercles <- map(c(3, 6, 10), GenererCercle, NPoints = 1000, Couleur = "#555555")
 
 # Ajouter du bruit de Perlin sur les cercles avec différentes
 set.seed(121221)
-BruitPerlin <- map2(c(2, 4, 8), c(.01, .1, .02), ~ noise_perlin(dim = c(1000, 1000), frequency = .y, octaves = .x))
-Cercles <- pmap(list(Cercles = Cercles, Bruit = BruitPerlin, Amplification = c(1, 2, 1)),
+BruitPerlin <- map2(c(6, 4, 8), c(.01, .1, .005), ~ noise_perlin(dim = c(1000, 1000), frequency = .y, octaves = .x))
+Cercles <- pmap(list(Cercles = Cercles, Bruit = BruitPerlin, Amplification = c(1, 5, 10)),
      \(Cercles, Bruit, Amplification) {
        Cercles$rayon <- sqrt(Cercles$xx ** 2 + Cercles$yy ** 2)
        Rayon <- Cercles$rayon[1]
        Cercles$matX <- 1 + floor((Cercles$xx + Cercles$rayon) * 999 / 2 / Cercles$rayon)
        Cercles$matY <- 1 + floor((Cercles$yy + Cercles$rayon) * 999 / 2 / Cercles$rayon)
-       Cercles$bruit <- Bruit[as.matrix(Cercles[, c("matX", "matY")])]
+       Cercles$bruit <- Bruit[as.matrix(Cercles[, c("matX", "matY")])] * Amplification
        Cercles$rayon <- Cercles$rayon + Cercles$bruit
        Cercles$abscisse <- seq(0, 2 * pi, length.out = nrow(Cercles))
        return(Cercles)
@@ -54,7 +55,7 @@ Cercles <- Cercles %>%
   mutate(abscisse_max = lead(abscisse)) %>% 
   ungroup() %>% 
   mutate(interp = map2(cercle, hauteur, \(c, h) {
-    data.frame(yy = seq(0, h, length.out = 10)) %>% 
+    data.frame(yy = seq(0, h, length.out = 15)) %>% 
       mutate(couleur = colorRampPalette(colors = if (c == 2) rev(Couleurs) else Couleurs, interpolate = "spline")(nrow(.)))
   })) %>% 
   unnest(interp) %>% 
@@ -64,10 +65,12 @@ Cercles <- Cercles %>%
   ungroup() %>% 
   filter(!is.na(abscisse_max), !is.na(yy_max))
 
-Image <- ggplot(Cercles, aes(xmin = abscisse, xmax = abscisse_max, ymin = yy, ymax = yy_max, fill = couleur)) +
+Image <- ggplot(Cercles, aes(xmin = abscisse, xmax = abscisse_max, ymin = yy, ymax = yy_max, fill = couleur, color = couleur)) +
   geom_rect() +
   theme_void() +
   coord_polar() +
-  scale_fill_identity()
+  scale_fill_identity() +
+  scale_color_identity() +
+  theme(plot.background = element_rect(fill = "#030649"))
 ggsave(Image, device = "png", height = 8, width = 8,
        filename = paste0(Chemin, "/perlin_circles2.png"))
