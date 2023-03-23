@@ -107,6 +107,6 @@ with_progress({
       plot(Graphe)
     }
   },
-  movie.name = paste0(dirname(rstudioapi::getSourceEditorContext()$path), "automata1.gif"),
+  movie.name = paste0(dirname(rstudioapi::getSourceEditorContext()$path), "/automata1.gif"),
   interval = .025, ani.width = 800, ani.height = 800, nmax = 1000)
 })
