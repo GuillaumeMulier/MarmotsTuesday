@@ -1,5 +1,6 @@
 library(tidyverse)
 library(ambient)
+library(data.table)
 
 MatPerlin <- expand.grid(xx = seq(-.5, 1.5, .001), yy = seq(-.5, 1.5, .01))
 set.seed(121221)
@@ -68,5 +69,6 @@ MatPerlin$ordonnee <- MatPerlin$yy + (MatPerlin$bruit) ** 3 * cos(pi / 2 + MatPe
           plot.margin = unit(c(1, 1, 1, 1), "mm")))
 ggsave(GraphePerlin, filename = paste0(dirname(rstudioapi::getSourceEditorContext()$path), "/CoverPerlin4.png"),
        device = "png", height = 7, width = 7)
+
 
 
