@@ -49,3 +49,5 @@ po/*~
 rsconnect/
 Chaos/ChaosGame/General/donnees_hexa1.RData
 *.RData
+Wordcloud/historique_marmotte.txt
+Wordcloud/wordcloud.png
