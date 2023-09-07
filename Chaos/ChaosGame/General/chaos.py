@@ -1,126 +1,106 @@
-"""import pygame
-import time
-
-pygame.init()
-
-display_width = 800
-display_height = 600
-
-black = (0, 0, 0)
-white = (255, 255, 255)
-red = (255, 0, 0)
-green = (0, 255, 0)
-
-car_width = 73
-
-gameDisplay = pygame.display.set_mode((display_width, display_height))
-pygame.display.set_caption('A bit Racey')
-clock = pygame.time.Clock()
-
-#carImg = pygame.image.load('racecar.png')
-
-
-def car(x, y):
-    gameDisplay.blit(carImg, (x, y))
-
-
-def text_objects(text, font):
-    textSurface = font.render(text, True, black)
-    return textSurface, textSurface.get_rect()
-
-
-def message_display(text):
-    largeText = pygame.font.Font('freesansbold.ttf', 115)
-    TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = ((display_width / 2), (display_height / 2))
-    gameDisplay.blit(TextSurf, TextRect)
-
-    pygame.display.update()
-
-    time.sleep(2)
-
-    game_loop()
-
-
-def crash():
-    message_display('You Crashed')
-def game_intro():
-    intro = True
-
-    while intro:
-        for event in pygame.event.get():
-            print(event)
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-
-        gameDisplay.fill(white)
-        largeText = pygame.font.Font('freesansbold.ttf', 115)
-        TextSurf, TextRect = text_objects("A bit Racey", largeText)
-        TextRect.center = ((50 / 2), (50 / 2))
-        gameDisplay.blit(TextSurf, TextRect)
-
-        pygame.draw.rect(gameDisplay, green, (150, 450, 100, 50))
-        pygame.draw.rect(gameDisplay, red, (550, 450, 100, 50))
-
-        pygame.display.update()
-        clock.tick(15)
-
-game_intro()
-
-"""
-
 import pygame as pg
+import numpy as np
 
 # Variables globales
-Dimensions = (800, 600)
+Dimensions = (900, 600)
+fps = 30
+CouleurFond = (4, 10, 45)
+AigueMarine = (121, 248, 248)
+Noir = (0, 0, 0)
+Blanc = (255, 255, 255)
+BtnSombre = (2, 55, 10)
+BtnClair = (32, 120, 45)
 
 # Configuration
 pg.init()
-fps = 60
 fpsClock = pg.time.Clock()
 
-font = pg.font.SysFont('gillsans', 40)
+def ConvertirCoord(x, y):
+    return x, Dimensions[1] - y
 
 class Bouton:
-    def __init__(self, x, y, h, l, police, label, couleur):
-        self.x = x
-        self.y = y
+    def __init__(self, x, y, h, l, label, police="georgia", couleur=BtnSombre, couleur_act=BtnClair):
+        self.x, self.y = ConvertirCoord(x, y)
         self.h = h
         self.l = l
         self.police = police
         self.label = label
         self.couleur = couleur
+        self.couleur_act = couleur_act
+        self.action = False
+        self.last_time = pg.time.get_ticks()
         return None
-    def draw(self):
-        pg.draw.rect(Ecran, self.couleur, (self.x, self.y, self.l, self.h))
+    def draw(self, souris, btn_click, couleur_police = Noir):
+        if self.x < souris[0] < self.x + self.l and self.y < souris[1] < self.y + self.h:
+            Couleur = self.couleur_act
+            if btn_click:
+                self.action = not self.action
+                pg.time.wait(250)
+        else:
+            Couleur = self.couleur
+        PoliceText = pg.font.SysFont(self.police, int(self.h / 2))
+        SurfaceText = PoliceText.render(self.label, True, couleur_police)
+        RectangleText = SurfaceText.get_rect()
+        RectangleText.center = (self.x + self.l / 2, self.y + self.h / 2)
+        pg.draw.rect(Ecran, Couleur, (self.x, self.y, self.l, self.h))
+        pg.draw.lines(Ecran, (0, 0, 0), True,
+                      [(self.x, self.y), (self.x + self.l, self.y),
+                       (self.x + self.l, self.y + self.h), (self.x, self.y + self.h)])
+        Ecran.blit(SurfaceText, RectangleText)
         return None
 
-Btn = Bouton(20, 20, 20, 20, "gillsans", "On teste", (255, 0, 0))
-Btn2 = Bouton(20, 60, 20, 20, "gillsans", "On teste", (0, 0, 0))
-Btn3 = Bouton(60, 20, 60, 20, "gillsans", "On teste", (0, 255, 0))
-Btn4 = Bouton(60, 60, 20, 60, "gillsans", "On teste", (0, 0, 255))
+class ChaosGame:
+    def __init__(self, pointcentral=(min(Dimensions) / 2, min(Dimensions) / 2)):
+        self.pointsx = np.array([])
+        self.pointsy = np.array([])
+        self.pointcurrent = pointcentral
+        return None
+    def add_pts(self, point):
+        if len(self.pointsx) == 3:
+            self.pointsx = np.append(self.pointsx[1:3], point[0])
+            self.pointsy = np.append(self.pointsy[1:3], point[1])
+        else:
+            self.pointsx = np.append(self.pointsx, point[0])
+            self.pointsy = np.append(self.pointsy, point[1])
+        return None
+    def draw_pts(self):
+        self.draw_scene()
+        for px, py in zip(self.pointsx, self.pointsy):
+            pg.draw.circle(Ecran, AigueMarine, (px, py), 1)
+        return None
+    def draw_scene(self):
+        Cote = min(Dimensions) - 100
+        Ecran.fill(CouleurFond)
+        pg.draw.rect(PetitEcran, (255, 0, 0), (0, 0, Cote, Cote), 2)
+        return None
+    def generate_pts(self):
+        Choix = np.random.randint(0, len(self.pointsx))
+        NvPt = ((self.pointsx[Choix] + self.pointcurrent[0]) / 2, (self.pointsy[Choix] + self.pointcurrent[1]) / 2)
+        pg.draw.circle(Ecran, AigueMarine, NvPt, 1)
+        self.pointcurrent = NvPt
+        return None
 
 
-objects = []
-polices = pg.font.get_fonts()
-
-
-width, height = 1000, 800
-Ecran = pg.display.set_mode((width, height))
+Btn = Bouton(600, 100, 40, 150, "On teste")
+Jeu = ChaosGame()
+Ecran = pg.display.set_mode(Dimensions)
+PetitEcran = Ecran.subsurface((50, 50, min(Dimensions) - 100, min(Dimensions) - 100))
+Ecran.fill(CouleurFond)
+Jeu.draw_scene()
 
 while True:
-    Ecran.fill((255, 255, 255))
+    Souris = pg.mouse.get_pos()
     for event in pg.event.get():
         if event.type == pg.QUIT:
             pg.quit()
-            sys.exit()
-
-    Btn.draw()
-    Btn2.draw()
-    Btn3.draw()
-    Btn4.draw()
-    pg.display.flip()
+        if event.type == pg.MOUSEBUTTONDOWN:
+            if (50 < Souris[0] < 50 + min(Dimensions) - 100) and (50 < Souris[1] < 50 + min(Dimensions) - 100):
+                Jeu.add_pts(pg.mouse.get_pos())
+                Jeu.draw_pts()
+    Btn.draw(Souris, pg.mouse.get_pressed()[0])
+    if Btn.action:
+        for i in range(5):
+            Jeu.generate_pts()
     fpsClock.tick(fps)
     pg.display.flip()
 
