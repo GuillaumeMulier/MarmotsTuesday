@@ -118,7 +118,7 @@ Graphe <- data.frame(
   theme_void() +
   theme(strip.text = element_blank()) +
   coord_cartesian(ylim = c(0, NLines + 1))
-ggsave(Graphe, filename = paste0(Chemin, "/violin6.png"), device = "png", height = 8, width = 8)
+ggsave(Graphe, filename = paste0(Chemin, "/violin6.png"), device = "png", height = 30, width = 21, units = "cm")
 
 Graphe <- data.frame(
   grid_x = rep(seq(1, GridX), each = GridY * NLines * NPts),
