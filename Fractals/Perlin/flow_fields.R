@@ -20,21 +20,21 @@ UpdateGrille <- function(Grille, Iteration, Generator = gen_perlin, TimeStep = .
 }
 
 Dimensions <- c(268, 268)
-NPts <- 100
+NPts <- 1000
 
 set.seed(121221)
 Grille <- tibble(
   id = 1:NPts,
-  x = runif(NPts, 0, 1),
-  y = runif(NPts, 0, 1),
+  x = runif(NPts, 0, 20),
+  y = runif(NPts, 0, 20),
   tps = 0
 )
-Grille <- accumulate(1:100, UpdateGrille, .init = Grille, Generator = gen_perlin, TimeStep = .1, frequency = .1) %>% 
+Grille <- accumulate(1:100, UpdateGrille, .init = Grille, Generator = gen_perlin, TimeStep = 5, frequency = .1) %>% 
   bind_rows()
 Graphique <- ggplot(Grille, aes(x, y, group = id)) +
     theme_void() +
     geom_path(alpha = .25, color = "#0B0B3B") +
-    coord_equal(xlim = c(0, 1), ylim = c(0, 1))
+    coord_equal(xlim = c(0, 20), ylim = c(0, 20))
 ggsave(Graphique, filename = "C:/Users/DRY12/Downloads/test2.png", device = "png", height = 10, width = 10, bg = "white")
 
 Marmotte <- load.image("C:/Users/DRY12/Documents/GitHub/MarmotsTuesday/Fractals/Perlin/dessin_marmotte.png")
