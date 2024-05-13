@@ -4,7 +4,8 @@ library(Rcpp)
 library(magick)
 library(torchvision)
 
-sourceCpp("C:/Users/gmulier/Documents/Github/MarmotsTuesday/Images/string_algorithm_v2.cpp")
+# sourceCpp("C:/Users/gmulier/Documents/Github/MarmotsTuesday/Images/string_algorithm_v2.cpp")
+sourceCpp("C:/Users/DRY12/Documents/Github/MarmotsTuesday/Images/string_algorithm_v2.cpp")
 
 CirclePins <- function(NbPins, DimX, DimY) {
   Angles <- seq(0, 2 * pi, length.out = NbPins + 1)
@@ -101,3 +102,50 @@ image(matrix(Test$Img, 800, 800), zlim = c(0, 1), col = rev(gray.colors(100)), y
 print(Test$Dist / 1000)
 Test$Instructions[rowSums(Test$Instructions) != 0, ] %>% write.csv("C:/Users/gmulier/Documents/GitHub/MarmotsTuesday/Images/instruction_jinx.csv")
 
+# On charge l'image et on la met au bon format / en noir et blanc
+Levi <- load.image("C:/Users/DRY12/Documents/GitHub/MarmotsTuesday/Images/levi.jpg")
+Levi <- grayscale(Levi) %>% 
+  imsub(y < 150) %>% 
+  imsub(x > 20 & x < 220) %>% 
+  resize(size_x = 800, size_y = 800)
+# On va essayer de réhausser le contraste sur les endroits de transition
+PoidsLevi <- Levi
+PoidsLevi <- PoidsLevi %>% isoblur(2) %>% imgradient("xy")
+PoidsLevi <- sqrt(PoidsLevi$x ** 2 + PoidsLevi$y ** 2)
+PoidsLevi <- (as.matrix(PoidsLevi) > .01) * .5 + .5
+# ErenTitan[Eren2 > .03] <- ErenTitan[Eren2 > .03] ** 2 # Abandon de cette partie qui n'a pas l'air d'apporter de précision en plus
+# On transforme l'image en matrice que la fonction comprend
+Levi <- as.matrix(Levi)
+Levi <- 1 - Levi
+Levi <- Levi ** .7
+# # Définition de la matrice des poids. Je pense prendre la matrice des gradients pour ça
+# Eren2 <- as.matrix(Eren2)
+# Eren2 <- ifelse(Eren2 > .03, 1, ((Eren2 - min(Eren2)) / (.03 - min(Eren2)) + 9) / 10)
+# On lance le calcul des fils
+Cercle <- CirclePins(133, 799, 799)
+StringEren <- GenThread(ErenTitan, Eren2, 
+                         Cercle$x, Cercle$y, TRUE,
+                         .15, 4000, 560 / 800,
+                         "anti-alias")
+StringEren <- GenThread(ErenTitan, matrix(1, 800, 800), 
+                         Cercle$x, Cercle$y, TRUE,
+                         .15, 4000, 560 / 800,
+                         "anti-alias")
+
+
+
+
+
+
+image(matrix(StringEren$Img, 800, 800), zlim = c(0, 1), col = rev(gray.colors(100)), ylim = c(1, 0))
+print(StringEren$Dist / 1000)
+
+hist(Eren2) 
+min(Eren2)
+max(Eren2)
+
+image(Levi, zlim = c(0, 1), col = rev(gray.colors(100)), ylim = c(1, 0))
+image(transform_adjust_contrast(Levi, 2), zlim = c(0, 1), col = rev(gray.colors(100)), ylim = c(1, 0))
+
+plot(ErenTitan)
+plot(Eren2 > .01)
