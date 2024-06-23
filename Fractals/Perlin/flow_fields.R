@@ -3,6 +3,55 @@ library(ambient)
 library(tidyverse)
 library(patchwork)
 
+NPts <- 500
+Resolution <- .05
+
+VisualiserFField <- function(.Data) {
+  ggplot(.Data, aes(x, y)) +
+         geom_tile(aes(fill = bruit)) +
+         theme_void() +
+         coord_equal()
+}
+
+GenererFField <- function(.Data, Bruit = gen_perlin, Graine, ...) {
+  .Data$bruit <- fracture(noise = Bruit, seed = Graine, 
+                          x = .Data$x, y = .Data$y, ...)
+  return(.Data)
+}
+
+UpdateFField <- function(.Data, Iteration, Bruit = gen_perlin, Resolution = .05, 
+                         XLims = c(0, 1), YLims = c(0, 1), Graine, ...) {
+  if (Iteration != 1) {
+    .Data$x <- .Data$xend
+    .Data$y <- .Data$yend
+    OutBounds <- .Data$x > XLims[2] | .Data$x < XLims[1] | .Data$y > YLims[2] | .Data$y < YLims[1]
+    .Data$x[OutBounds] <- runif(sum(OutBounds), XLims[1], XLims[2])
+    .Data$y[OutBounds] <- runif(sum(OutBounds), YLims[1], YLims[2])
+    .Data$id[OutBounds] <- seq(max(.Data$id) + 1, max(.Data$id) + sum(OutBounds))
+  }
+  .Data$bruit <- fracture(noise = Bruit, seed = Graine, 
+                          x = .Data$x, y = .Data$y, ...)
+  .Data$bruit <- (.Data$bruit - min(.Data$bruit)) / (max(.Data$bruit) - min(.Data$bruit)) * 2 * pi
+  .Data$xend <- .Data$x + Resolution * cos(.Data$bruit)
+  .Data$yend <- .Data$y + Resolution * sin(.Data$bruit)
+  return(.Data)
+}
+
+# Exploration du flow field pour trouver des paramètres qui sont pas mal
+XLim <- c(0, 10)
+YLim <- c(0, 10)
+NOctaves <- 6
+GrilleTest <- expand.grid(x = seq(XLim[1], XLim[2], length.out = 250), y = seq(YLim[1], YLim[2], length.out = 250))
+GrilleTest <- GenererFField(GrilleTest, gen_perlin, Graine = 121221, octaves = NOctaves, fractal = fbm, 
+                         frequency = .75 * 1.5 ** seq(1, NOctaves), gain = ~ . / 2)
+VisualiserFField(GrilleTest)
+
+# Générer le flowfield avec les paramètres trouvés
+set.seed(121221)
+Grille <- data.frame(id = seq_len(NPts), x = runif(NPts, XLim[1], XLim[2]), y = runif(NPts, YLim[1], YLim[2]))
+
+
+
 UpdateGrille <- function(Grille, Iteration, Generator = gen_perlin, TimeStep = .05, ...) {
   FlowField <- curl_noise(
     generator = Generator,
@@ -62,7 +111,7 @@ ggsave(Graphique | Graphique2, filename = "C:/Users/DRY12/Documents/GitHub/Marmo
 
 
 
-smol_grid <- long_grid(x = seq(1, 20, .01), y = seq(1, 20, .01))
+smol_grid <- long_grid(x = seq(1, 20, .1), y = seq(1, 20, .1))
 ggplot(smol_grid) +
   geom_point(aes(x, y), colour = "black") + 
   theme_void() + 
@@ -110,16 +159,52 @@ smol_curl <- smol_grid |> mutate(
   x_curl = -y_slope, 
   y_curl = x_slope
 )
+
+smol_curl <- smol_simplex |> mutate(
+  z = (z - min(z)) / (max(z) - min(z)) * 2 * pi,
+  x_end = x + .1 * cos(z),
+  y_end = y + .1 * sin(z)
+)
+
 ggplot(smol_curl) + 
   geom_segment(
     mapping = aes(
       x = x, 
       y = y, 
-      xend = x + x_slope * 2, 
-      yend = y + y_slope * 2
+      xend = x_end,
+      yend = y_end
     ), 
     colour = "black", 
     arrow = arrow(length = unit(0.1, "cm"))
   ) + 
   theme_void() + 
   coord_equal()
+
+
+
+
+Grille <- long_grid(x = runif(5e+2, 0, 1), y = runif(5e+2, 0, 1))
+Grille <- long_grid(x = seq(0, 1, .001), y = seq(0, 1, .001))
+Grille <- Grille %>%
+  mutate(bruit = gen_perlin(x, y, seed = 121221, frequency = 3)) 
+Grille$bruit <- (Grille$bruit - min(Grille$bruit)) / (max(Grille$bruit) - min(Grille$bruit)) * 2 * pi
+Grille$x_end <- Grille$x + .05 * cos(Grille$bruit)
+Grille$y_end <- Grille$y + .05 * sin(Grille$bruit)
+TestGrille <- accumulate(1:50, \(donnees, index) {
+  print(index)
+  donnees$x <- donnees$x_end
+  donnees$y <- donnees$y_end
+  donnees$bruit <- gen_perlin(donnees$x, donnees$y, seed = 121221, frequency = 3)
+  donnees$bruit <- (donnees$bruit - min(donnees$bruit)) / (max(donnees$bruit) - min(donnees$bruit)) * 2 * pi
+  donnees$x_end <- donnees$x + .0005 * cos(donnees$bruit)
+  donnees$y_end <- donnees$y + .005 * sin(donnees$bruit)
+  return(donnees)
+}, .init = Grille)
+TestGrille <- do.call("rbind", TestGrille)
+
+ggsave(ggplot(TestGrille, aes(x, y)) + 
+  geom_segment(aes(xend = x_end, yend = y_end), alpha = .001) +
+  theme_void() +
+  coord_equal(xlim = c(0, 1), ylim = c(0, 1)),
+  filename = "GitHub/MarmotsTuesday/Fractals/Perlin/essai1.png",
+  device = "png", height = 20, width = 20, bg = "white")
