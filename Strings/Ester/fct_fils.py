@@ -61,9 +61,15 @@ def FctPerte(ValReelles, ValRecons, Poids = 1.0, Fun = np.abs):
     Calcul = Fun(Poids * (ValReelles - ValRecons))
     Sortie : valeur d'erreur, float
     """
-    if type(Poids) != list and type(Poids) != np.ndarray: # Si juste list, mauvais calcul avec les arrays numpy
-        Poids = [Poids] * len(ValReelles)
-    return np.sum([poids * Fun(reel - recons) for reel, recons, poids in zip(ValReelles, ValRecons, Poids)])
+    ValReelles = np.asarray(ValReelles)
+    ValRecons = np.asarray(ValRecons)
+    Poids = np.asarray(Poids)
+
+    if Poids.ndim == 0:
+        Poids = Poids * np.ones_like(ValReelles)
+
+    return np.sum(Poids * Fun(ValReelles - ValRecons))
+
     
 def GenererPlanFils(NbClous, DicoFils, NbMaxFils, FunPerte, ImgBase, ImgPoids, FilNoir = True, NbFilsParEtape = np.inf, Verbose = True):
     """
@@ -95,7 +101,7 @@ def GenererPlanFils(NbClous, DicoFils, NbMaxFils, FunPerte, ImgBase, ImgPoids, F
     for fil1 in range(NbClous - 1):
         for fil2 in range(fil1 + 1, NbClous):
             Xs, Ys, Vals = DicoFils[fil1][fil2]
-            GainTemp = round(FctPerte(ImgBase[Xs, Ys], ImgRecons[Xs, Ys], ImgPoids[Xs, Ys], FunPerte) - FctPerte(ImgBase[Xs, Ys], ImgRecons[Xs, Ys] + Mult * Vals, ImgPoids[Xs, Ys], FunPerte), 3)
+            GainTemp = round(FctPerte(ImgBase[Xs, Ys], ImgRecons[Xs, Ys], ImgPoids[Xs, Ys], FunPerte) - FctPerte(ImgBase[Xs, Ys], np.clip(ImgRecons[Xs, Ys] + Mult * Vals), ImgPoids[Xs, Ys], FunPerte), 3)
             if GainTemp > CurGain:
                 CurGain = GainTemp
                 FilG = fil1
@@ -108,12 +114,12 @@ def GenererPlanFils(NbClous, DicoFils, NbMaxFils, FunPerte, ImgBase, ImgPoids, F
     Chemin.append(CurFil[0])
     Chemin.append(CurFil[1])
     CurFil = CurFil[1]
-    ImgRecons[CurXs, CurYs] = ImgRecons[CurXs, CurYs] + Mult * CurVals
+    ImgRecons[CurXs, CurYs] = np.clip(ImgRecons[CurXs, CurYs] + Mult * CurVals)
     print(f"Premier fil entre le clou {str(FilG)} et le clou {str(FilD)} avec maintenant une erreur de {str(Erreur)} ! Début de la recherche des fils suivants...")
 
     # Maintenant il faut trouver les fils suivants en continuant le fil déjà tendu
     for i in range(2, NbMaxFils):
-        if Verbose and (i % 100) == 0: print(f"Fil n°{str(i)} : erreur résiduelle = {str(Erreur)} !")
+        if Verbose and (i % 100) == 0: print(f"Fil n°{str(i)} : erreur résiduelle = {str(round(Erreur, 3))} !")
         CurGain = 0
         FilG = CurFil
         if NbFilsParEtape > (NbClous - 1): # Ici on regarde tous les fils (séparation des boucles car range est plus efficient que de construire un array)
@@ -123,7 +129,7 @@ def GenererPlanFils(NbClous, DicoFils, NbMaxFils, FunPerte, ImgBase, ImgPoids, F
                         Xs, Ys, Vals = DicoFils[fil][FilG]
                     else:
                         Xs, Ys, Vals = DicoFils[FilG][fil]
-                    GainTemp = round(FctPerte(ImgBase[Xs, Ys], ImgRecons[Xs, Ys], ImgPoids[Xs, Ys], FunPerte) - FctPerte(ImgBase[Xs, Ys], ImgRecons[Xs, Ys] + Mult * Vals, ImgPoids[Xs, Ys], FunPerte), 3)
+                    GainTemp = FctPerte(ImgBase[Xs, Ys], ImgRecons[Xs, Ys], ImgPoids[Xs, Ys], FunPerte) - FctPerte(ImgBase[Xs, Ys], np.clip(ImgRecons[Xs, Ys] + Mult * Vals, 0, 1), ImgPoids[Xs, Ys], FunPerte)
                     if GainTemp > CurGain:
                         CurGain = GainTemp
                         FilD = fil
@@ -138,7 +144,7 @@ def GenererPlanFils(NbClous, DicoFils, NbMaxFils, FunPerte, ImgBase, ImgPoids, F
                 Erreur = Erreur - CurGain
                 Chemin.append(FilD)
                 FilG = FilD
-                ImgRecons[CurXs, CurYs] = ImgRecons[CurXs, CurYs] + Mult * CurVals
+                ImgRecons[CurXs, CurYs] = np.clip(ImgRecons[CurXs, CurYs] + Mult * CurVals, 0, 1)
         else: # On prend un certain nombre de clous au hasard (pour aller plus vite)
             pass 
 
