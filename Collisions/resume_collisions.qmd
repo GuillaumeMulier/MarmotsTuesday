@@ -1,0 +1,225 @@
+---
+title: "Doublons d'identifiants dans une base"
+author: "G. Mulier"
+format: 
+  html:
+    toc: true
+    toc-location: left
+theme: sandstone
+---
+
+# Le problème
+
+On a des patients qui ont tous un identifiant déterminé parmi $N$ identifiants possibles distincts.
+On supposera que les identifiants sont attribués au hasard pour chaque patients.
+
+L'échantillon est constitué de $n$ patients différents et dont le nombre d'occurences dans la base suit un loi $L$ discrète définie.
+
+3 questions se posent : 
+
+- Quelle est la probabilité pour un patient donné d'avoir un doublon d'identifiant ?
+- Dans notre échantillon, quelle est la probabilité d'avoir au moins un doublon d'identifiant entre 2 patients différents ?
+- Lorsqu'on prend un doublon d'identifiants dans l'échantillon, quelle est la probabilité d'être en présence d'une collision (même identifiant pour 2 patients différents) ?
+
+
+# Résolution
+
+## Question 1
+
+On suppose que les identifiants sont distribués au hasard.
+Ainsi, si on a un certain identifiant et qu'on prend un autre identifiant au hasard, la probabilité que cet identifiant soit le même est de $\frac{1}{N}$.
+
+
+## Question 2
+
+Dans un échantillon de taille $n$, la probabilité d'avoir au moins un doublon d'identifiant vaut 1 - la probabilité de n'en avoir aucun.
+Si on raisonne en prenant les patients 1 par 1, en prenant le premier, il peut prendre n'importe quel identifiant parmi les $N$ possibles sans faire de doublon.
+On peut lui associer une probabilité de ne pas faire de doublon de $\frac{N}{N}$.
+Quand on prend le 2^ème^ patient, s'il prend n'importe quel autre identifiant que celui attribué au 1^er^, il ne fait pas de doublons, et donc sa probabilité de ne pas faire de doublon est de $\frac{N-1}{N}$.
+Et on peut faire la même chose pour les suivants, avec l'individu $k$ qui aura pour probabilité de faire un doublon de $\frac{N-k+1}{N}$.
+Pour avoir la probabilité de n'avoir aucun doublon, il faut faire le produit de toutes ces probabilités :
+
+$$
+\frac{N}{N}\times\frac{N-1}{N}\times\dots\times\frac{N-n+1}{N}=\frac{N!}{(N-n)!N^n}
+$$
+
+Et donc la réponse à notre 2^ème^ question est 1 - cette probabilité :
+
+$$
+1-\frac{N!}{(N-n)!N^n}
+$$
+
+Cela tient si $n\leq N$ car si $n>N$ la probabilité d'avoir un doublon d'identifiant devient 1.
+
+
+## Question 3
+
+On se place dans une situation où on raison en fonction des différentes paires d'identifiants.
+Ainsi, on a $\binom{n}{2}$ paires d'identifiants entre individus.
+
+On note $C$ l'évènement collision et $P$ l'évènement doublon d'identifiant.
+On cherche donc à estimer $Pr(C|P)$.
+D'après Bayes, $Pr(C|P)=\frac{Pr(C\cap P)}{Pr(P)}=\frac{Pr(C)}{Pr(P)}$.
+
+Si on considère $Pr(C)=\frac{n_C}{n}$ et $Pr(P)=\frac{n_P}{n}==\frac{n_C+n_{\bar{C}\cap P}}{n}$, on trouve $Pr(C|P)=\frac{n_C}{n_C+n_{\bar{C}\cap P}}$.
+Il faut donc maintenant trouver $n_C$ le nombre estimé de collisions dans notre échantillon et $n_{\bar{C}\cap P}$ le nombre estimé de doublons vrais d'identifiants dans la base.
+
+Pour $n_{\bar{C}\cap P}$, on peut se servir de la loi $L$ d'occurences par personne.
+Si on se place dans le cas où $100p$% des personnes de l'échantillon ont 2 occurences et $100(1-p)$% ont 1 occurence.
+Dans ce cas, les personnes avec une occurence ne vont pas produire de doublons d'identifiant, et celles avec 2 occurences vont produire 1 doublon chacune.
+Et donc on a $n_{\bar{C}\cap P}=np$.
+
+Pour $n_{C}$, on sait que chaque identifiant a $\frac{1}{N}$ d'être le même qu'un autre identifiant pris au hasard.
+Ainsi, parmi nos $n$ patients, il y a $\binom{n}{2}=\frac{n(n-1)}{2}$ paires d'identifiants possibles.
+Pour chaque paire d'identifiant, on a une probabilité $\frac{1}{N}$ d'être un doublon.
+Et donc, le nombre de collision entre les patients est de $\frac{n(n-1)}{2N}$.
+Mais pour autant, les patients peuvent avoir plusieurs occurences, et parmi les paires, on a :
+
+- 2 patients avec une occurence chacun ($100*(1-p)^2$%) qui donneront 1 paire ;
+- 2 patients avec deux occurence chacun ($100*p^2$%) qui donneront 4 paires ;
+- 1 patient avec une occurence et l'autre avec 2 ($100*2(1-p)p$%) qui donneront 2 paires.
+
+On peut donc estimer le nombre de paires collisions par :
+
+$$
+\frac{n(n-1)}{2N}\times((1-p)^2+4p^2+4p(1-p))
+$$
+
+$$
+\frac{n(n-1)}{2N}\times(1-2p+p^2+4p^2+4p-4p^2)
+$$
+
+$$
+\frac{n(n-1)}{2N}\times(p^2+2p+1)
+$$
+
+$$
+\frac{n(n-1)}{2N}\times(p+1)^2\\
+$$
+
+Ainsi, si on veut le résultat final, lorsqu'on prend une paire d'identifiant qui est un doublon, la probabilité que ce doublon soit une collision est de $\frac{\frac{n(n-1)}{2N}\times(p+1)^2}{\frac{n(n-1)}{2N}\times(p+1)^2+np}$.
+
+
+# Application sur les données DoReMy
+
+## Résolution avec les formules
+
+On considère que 30 patients parmi les 1400 ont 2 occurences dans la base.
+
+```{r}
+N <- 8199360
+n <- 1400
+p <- 30 / 1400
+```
+
+
+- Question 1
+
+```{r, results = "asis"}
+Proba1 <- 1 / N
+cat(sprintf("Probabilité de doublon pour un identifiant donné = %.6f%%", 100 * Proba1))
+```
+
+- Question 2
+
+```{r, results = "asis"}
+Proba2 <- 1 - prod(seq(N - n + 1, N) / N)
+cat(sprintf("Probabilité de trouver au moins un doublon d'identifiant pour 2 patients différents dans l'échantillon = %.2f%%", 100 * Proba2))
+```
+
+- Question 3
+
+```{r, results = "asis"}
+NC <- n * (n - 1) / (2 * N) * (p + 1) ** 2
+Proba3 <- NC / (NC + n * p)
+cat(sprintf("Pour un doublon d'identifiant, la probabilité que ce soit une collision entre 2 patients différents = %.2f%%", 100 * Proba3))
+```
+
+## Vérification par simulations
+
+```{r}
+# Fonction pour simuler un essai
+SimulEssai <- function(n, N, p) {
+  
+  # Simuler les données
+  IdPat <- setNames(sample.int(N, n, replace = TRUE), seq_len(n))
+  Pat <- rep(seq_len(n), times = sample(c(rep(2, floor(p * n)), rep(1, n - floor(p * n)))))
+  IdPatEch <- IdPat[Pat]
+  
+  # Compter les doublons
+  NbPaires <- n * (n - 1) / 2
+  Paires <- combn(seq_along(IdPatEch), 2)
+  MemeId <- IdPatEch[Paires[1, ]] == IdPatEch[Paires[2, ]]
+  MemePat <- Pat[Paires[1, ]] == Pat[Paires[2, ]]
+  NbDoublons <- sum(MemeId)
+  NbCollisions <- sum(MemeId & !MemePat)
+  
+  # Retourner les résultats
+  return(c(NbDoublons, NbCollisions, NbPaires))
+  
+}
+```
+
+```{r}
+# On simule 100 000 essais sur le serveur et on retourne les résultats
+
+if (FALSE) {
+  library(parallel)
+  library(foreach)
+  library(doParallel)
+  library(doRNG)
+  
+  n <- 1400
+  N <- 8199360
+  p = 30 / n
+  
+  cl <- makeCluster(50)
+  registerDoParallel(cl)
+  
+  cat("Début du programme\n\n", file = "~/collisions/log.txt")
+  
+  Res <- foreach(i = seq_len(1e+5),
+                 .export = c("SimulEssai", "n", "N", "p"),
+                 .options.RNG = 121221,
+                 .combine = "rbind") %dorng% {
+                   
+                   if (i %% 1000 == 0) cat(paste0("Simulation n°", i, "\n"), append = TRUE, file = "~/collisions/log.txt")
+                   Resultat <- SimulEssai(n, N, p)
+                   return(Resultat)
+                   
+                 }
+  save(Res, file = "~/collisions/res.RData")
+  
+  stopCluster(cl)
+  
+}
+
+load("res.RData")
+```
+
+- Question 1
+
+```{r, results = "asis"}
+Proba1 <- mean(Res[, 2] / Res[, 3])
+cat(sprintf("Probabilité de doublon d'identifiants pour 2 patients différents = %.6f%%", 100 * Proba1))
+```
+
+- Question 2
+
+```{r, results = "asis"}
+Proba2 <- mean(Res[, 2] > 0)
+cat(sprintf("Probabilité de trouver au moins un doublon d'identifiant pour 2 patients différents dans l'échantillon = %.2f%%", 100 * Proba2))
+```
+
+- Question 3
+
+```{r, results = "asis"}
+Proba3 <- mean(Res[, 2] / (Res[, 2] + Res[, 1]))
+cat(sprintf("Pour un doublon d'identifiant, la probabilité que ce soit une collision entre 2 patients différents = %.2f%%", 100 * Proba3))
+```
+
+
+
+
+
+
