@@ -204,7 +204,7 @@ if Accessible:
         cartejs = carte.replace("'", " ")
         for p in range(1, 31):
             print(str(p) + " - ", end = "")
-            Adresse = CreerQuery(site, p, "bravos", cartejs)
+            Adresse = CreerQuery(site, p, Arguments.faction, cartejs)
             Page.execute_script(f"window.open('{Adresse}');")
             handles = Page.window_handles
             Page.switch_to.window(handles[-1])
