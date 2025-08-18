@@ -214,7 +214,7 @@ cat(sprintf("Probabilité de trouver au moins un doublon d'identifiant pour 2 pa
 - Question 3
 
 ```{r, results = "asis"}
-Proba3 <- mean(Res[, 2] / (Res[, 2] + Res[, 1]))
+Proba3 <- mean(Res[, 2] / (Res[, 1]))
 cat(sprintf("Pour un doublon d'identifiant, la probabilité que ce soit une collision entre 2 patients différents = %.2f%%", 100 * Proba3))
 ```
 
