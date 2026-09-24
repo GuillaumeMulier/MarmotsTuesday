@@ -7,6 +7,7 @@ import pandas as pd
 from itertools import product
 from argparse import ArgumentParser
 
+
 # Scraping des cartes ou scraping des cartes possédées en plus
 parser = ArgumentParser()
 parser.add_argument("-personal", action = "store_true", help = "Connexion à son compte perso Altered")
@@ -107,10 +108,10 @@ if Accessible: # Le site est accessible
         "or": "Ordis"
     }
 
-    Editions = ["CORE", "COREKS", "ALIZE", "BISE"]
+    Editions = ["DUSTER"]
     AltArt = ["A", "B"]
     FactionCarte = ["AX", "BR", "LY", "MU", "OR", "YZ"]
-    NumCarte = [str(x + 1) if x > 8 else "0" + str(x + 1) for x in range(100)]
+    NumCarte = [str(x + 1) if x > 8 else "0" + str(x + 1) for x in range(150)]
 
     NbACheck = len(Editions) * len(AltArt) * len(FactionCarte) * len(NumCarte)
     print(f"Potentiellement {NbACheck} cartes à chercher...")
@@ -118,14 +119,19 @@ if Accessible: # Le site est accessible
     # On reconstruit les différentes adresses de cartes et on itère dessus
     for edi, art, fac, numero in product(Editions, AltArt, FactionCarte, NumCarte):
         # On va chercher les rares etc.
-        for suf in ["C", "R1", "R2"]:
+        for suf in ["C", "R1", "R2", "E"]:
             Page.execute_script(f"window.open('{site}/ALT_{edi}_{art}_{fac}_{numero}_{suf}');")
             handles = Page.window_handles
             Page.switch_to.window(handles[-1])
-            time.sleep(2)
+            time.sleep(1)
             PageStatique = BeautifulSoup(Page.page_source, "html.parser")
             Titre = PageStatique.find("h1")
-            if Titre.text == "Oups":
+            if Titre is None:
+                print(f"Carte Exception : ALT_{edi}_{art}_{fac}_{numero}_{suf}.")
+                Page.close()
+                Page.switch_to.window(handles[0])
+                break
+            elif Titre.text == "Oups":
                 # On ne trouve pas la carte, donc pas la peine de se faire tous les suffixes
                 print(f"Carte non existante : ALT_{edi}_{art}_{fac}_{numero}_{suf}.")
                 Page.close()
@@ -151,6 +157,8 @@ if Accessible: # Le site est accessible
                 EffetsCarte = re.sub(r"^Effet principal", "", Processed.group(4))
                 if suf == "C":
                     RareteCarte = "Commune"
+                elif suf == "E":
+                    RareteCarte = "Exalté"
                 else:
                     RareteCarte = "Rare"
                 TexteComplementaire = Page.find_elements(webdriver.common.by.By.XPATH, "//div[contains(@class, 'rounded-sm') and contains(@class, 'bg-sand-100') and contains(@class, 'group')]")[1].text
@@ -168,7 +176,7 @@ if Accessible: # Le site est accessible
                     SoustypeCarte = re.search(r"^(.*)Attributs.+$", SoustypeCarte).group(1)
                     CoutMain, CoutReserve, Foret, Montagne, Lac = AttributsCarte.strip().split(" ")
                     if re.search(r"\n([0-9]+)(/*[0-9]*)\n(DANS TA COLLECTION|CARTE\(S\) EXCLUSIVE\(S\) DANS MA COLLECTION)", TexteComplementaire):
-                        Edition = re.search(r"ÉDITION\n(.+?)\n", TexteComplementaire).group(1)
+                        Edition = re.search(r"ÉDITION\n(.+?)(\n|$)", TexteComplementaire).group(1)
                         NbDigi = re.search(r"\n([0-9]+)(/*[0-9]*)\n(DANS TA COLLECTION|CARTE\(S\) EXCLUSIVE\(S\) DANS MA COLLECTION)", TexteComplementaire).group(1)
                     else:
                         Edition = " "
@@ -179,7 +187,7 @@ if Accessible: # Le site est accessible
                     CoutMain, CoutReserve = AttributsCarte.strip().split(" ")
                     Foret, Montagne, Lac = "   "
                     if re.search(r"\n([0-9]+)(/*[0-9]*)\n(DANS TA COLLECTION|CARTE\(S\) EXCLUSIVE\(S\) DANS MA COLLECTION)", TexteComplementaire):
-                        Edition = re.search(r"ÉDITION\n(.+?)\n", TexteComplementaire).group(1)
+                        Edition = re.search(r"ÉDITION\n(.+?)(\n|$)", TexteComplementaire).group(1)
                         NbDigi = re.search(r"\n([0-9]+)(/*[0-9]*)\n(DANS TA COLLECTION|CARTE\(S\) EXCLUSIVE\(S\) DANS MA COLLECTION)", TexteComplementaire).group(1)
                     else:
                         Edition = " "
@@ -210,7 +218,7 @@ if Accessible: # Le site est accessible
     DictOperations.update({col: "first" for col in ColonnesPremier})
     df["Edition"] = df["Edition"].str.replace(" - Édition KS", "")
     df = df.groupby(['Nom', 'Rarity', 'Faction', 'Edition']).agg(DictOperations).reset_index()
-    df.to_excel("C:/Users/DRY12/Documents/Github/MarmotsTuesday/Altered/liste_cartes_20250617.xlsx", index=False, engine='openpyxl')
+    df.to_excel("C:/Users/DRY12/Documents/Github/MarmotsTuesday/Altered/liste_cartes_seeds.xlsx", index=False, engine='openpyxl')
 
 Fin = time.time()
 print(f"Fin du programme en {round((Fin - Debut) / 60, 1)} minutes !")

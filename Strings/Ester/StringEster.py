@@ -54,8 +54,8 @@ fig, axes = plt.subplots(1, 3)
 axes[0].scatter(CercleClous[0], CercleClous[1], color = "steelblue")
 for i in range(len(Test[2]) - 1):
     axes[0].plot([CercleClous[0][Test[2][i]], CercleClous[0][Test[2][i + 1]]], [CercleClous[1][Test[2][i]], CercleClous[1][Test[2][i + 1]]], color = "black", alpha = .15)
-axes[1].imshow(Test[0], cmap = "gray")
-axes[2].imshow(Test[1], cmap = "gray")
+axes[1].imshow(ImgBase, cmap = "gray")
+axes[2].imshow(ImgRecons, cmap = "gray")
 
 plt.show()
 

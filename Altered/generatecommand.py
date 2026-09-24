@@ -1,78 +1,32 @@
-Cartes = [
-    "Disciple Studieux", 
-    "Héraut de Papier", 
-    "Martengale", 
-    "Mage-Danseur du Kadigir", 
-    "Comédien Lyra", 
-    "Encrière de l'Ouroboros", 
-    "Hathor", 
-    "Kodama", 
-    "Navigatrice Lyra", 
-    "Pionnière Bravos", 
-    "Prestidigitatrice de l'Ouroboros", 
-    "Skald Lyra", 
-    "Esmeralda", 
-    "Fée Clochette", 
-    "Anansi", 
-    "Danseuse d'Étoffe Lyra", 
-    "Le Marchand de Sable", 
-    "Alice", 
-    "Aloe Vera", 
-    "Cernunnos", 
-    "Chroniqueuse Lyra", 
-    "Tanuki", 
-    "Tomoe Gozen", 
-    "Yong-Su, Tisserand Verdoyant", 
-    "Dr Frankenstein", 
-    "Flamel", 
-    "Puissant Djinn", 
-    "Croupière de l'Ouroboros", 
-    "Kappa", 
-    "Le Chapelier", 
-    "Pignon Pugnace", 
-    "Robin des Bois", 
-    "Amahle, Paria Asgarthi", 
-    "Asmodée", 
-    "Shenlong", 
-    "Loki", 
-    "Hydracaena", 
-    "Kaibara, Léviathan Asgarthi", 
-    "Commando Boule-de-Neige", 
-    "Entasseur Magpeng", 
-    "Le Bonhomme de Neige", 
-    "Pamola", 
-    "Seiringar de Havre", 
-    "Déblayeur Bravos", 
-    "Nisse", 
-    "Perséphone", 
-    "Feu Follet", 
-    "Nyala, Habile Illusionniste", 
-    "Veilleur Ordis", 
-    "Gericht, Bretteur Honoré", 
-    "Heimdall", 
-    "Le Père Noël", 
-    "Griffonneur Étoilé", 
-    "Fan de Bliss", 
-    "Flore, Maraîchère Attentive", 
-    "Bassiste de Bliss", 
-    "Claviériste de Bliss", 
-    "Contorsionniste Lyra", 
-    "Drone Ratisseur", 
-    "Tatoueur Yzmir", 
-    "Dédale", 
-    "La Petite Souris", 
-    "Lakshmi", 
-    "Arawn", 
-    "Batteur de Bliss", 
-    "Efrén, Marionnettiste", 
-    "Hydre de Lerne", 
-    "Le Minotaure", 
-    "L'Homme dans le Labyrinthe"
-]
+import pandas as pd
 
-def ProcessString(String):
-    return String.replace("é", "e").replace("è", "e").replace("ê", "e").replace("â", "a").replace("à", "a").replace("î", "i").replace("ō", "o").replace("ô", "o").lower().replace(",", "").replace("-", "").replace(" ", "").replace("'", "")
+TabBase = pd.read_excel("C:/Users/DRY12/Documents/GitHub/MarmotsTuesday/Altered/liste_cartes_20250617.xlsx")
 
-with open("./output.txt", "a", encoding = "utf-8") as f:
-    for i in range(0, len(Cartes), 10):
-        f.write("python ./scraping_uniques.py -faction bravos -name \"" + "¤".join(card for card in Cartes[i:i+10]) +"\" -radical \"script" + str(i) + "\"\n")
+TabBase = TabBase[TabBase["Possédé (physique)"] < 3]
+
+Commande = ""
+TotalCartes = 0
+TotalPrix = 0
+for faction in ["Axiom", "Bravos", "Lyra", "Muna", "Ordis", "Yzmir"]:
+    CartesFaction = 0
+    TotalFaction = 0
+    Commande += "- Faction : " + faction + "\n"
+    for edition in ["Au-delà des portes", "Épreuve du froid", "Les Graines de l'Unité",
+                        "Murmures du Labyrinthe", "Odyssée des cieux"]:
+        TabFiltre = TabBase[(TabBase["Edition"] == edition) & (TabBase["Faction"] == faction)]
+        Commande += "\n" + "  - Edition : " + edition + " :\n"
+        if edition == "Les Graines de l'Unité":
+            price = 1
+        else:
+            price = .5
+        for _, r in TabFiltre.iterrows():
+            Commande += "    - " + r["Nom"] + " : " + str(r["Manque (physique)"]) + '\n'
+            TotalFaction += r["Manque (physique)"] * price
+            CartesFaction += r["Manque (physique)"]
+    Commande += "\nNombre de cartes dans la faction : " + str(CartesFaction) + "\nTotal de la faction : " + str(TotalFaction) + "€\n\n"
+    TotalCartes += CartesFaction
+    TotalPrix += TotalFaction
+Commande += "\nAu total, " + str(TotalCartes) + " cartes pour " + str(TotalPrix) + "€"
+        
+with open("C:/Users/DRY12/Documents/GitHub/MarmotsTuesday/Altered/commande_guillaume.txt", "w", encoding = "utf-8") as f:
+    f.write(Commande)

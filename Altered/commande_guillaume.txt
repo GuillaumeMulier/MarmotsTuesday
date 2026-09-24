@@ -1,122 +1,679 @@
-BRAVOS :
-Achille x3 = 3
-Aja x2 = 2
-Armuriere x1 = 3
-Asmodée x1 = 1
-Aspirant x2 = 2
-Atlas x2 = 4
-Avant-garde x2 = 4
-Canalisation de mana x2 = 2
-Danseuse de lames x1 = 3
-Dracaena x2 = 2
-Hua mulan x2 = 2
-Intimidation x2 = 2
-Issun x2 = 2
-Kaibara x3 = 3
-Kappa x1 = 1
-Kitsune FR x2 = 4
-Chapelier x1 = 1
-Conseil x2 = 2
-Main tendue FR x1 = 3
-Moisson de mana x1 = 1
-Ozma x3 = 3
-Parvati x2 = 2
-Pionnière x1 = 1
-Puissant Djinn FR x1 = 5
-Ouroboros trickster x2 = 2
-Red x1 = 2
-Récupérateur axiom x2 = 2
-Sakabaru x2 = 2
-Tanuki x2 = 4
-Tapis x3 = 3
-3 petits cochons x2 = 2
-Tomoe x2 = 2
-Total bravos : 77€
+- Faction : Axiom
 
-AXIOM :
-Amelia x2ENG +1FR = 4
-Amahle x1 = 1
-Anansi x2 = 2
-Armurière fondriz x1FR = 3
-Athena x2 = 2
-Avant-garde bravos x1 = 1
-Baku x1ENG +2FR = 5
-Boom x1 = 1
-Brouilleur axiom x3 = 3
-Brouilleur blindé x2 = 2
-Coppélia x1 = 1
-Croupière x1 = 1
-Cylindre Kélon x1 +1FR = 4
-Décharge de Kélon x1 = 1
-Krankenstein x2 = 10
-Druide muna x1 = 1
-Elementaire kélon x2 = 2
-Encirère ouroboros x2 = 6
-Entrainement esprit equipe x3 = 3
-Clochette x1 = 1
-Fille yggdrasil x2 = 2
-Furie Kraken x2 = 2
-Ganesh x1 = 1
-Générateur kélonique x2 = 2
-Happé x2 = 2
-Hub scarabot x2 = 2
-Jeanne d'arc x2 = 2
-Jian x3 = 3
-Fonderie bastion x1 = 1
-Roi grenouille x2 = 2
-Marchant muna x3 = 3
-Martingale x2 = 2
-Méduse x1 = 1
-Ogun x1 = 1
-Ouvrez les portes x2 = 2
-Récoltez x2 = 2
-Recycleur axiom x1 = 1
-Ruche scarabot x1 = 1
-Sceaux adhésifs x2 = 2
-Scribe runique x1 = 1
-Traceuse bravos x2 = 4
-3 petits cochons x1 = 1
-Total Axiom : 91€
+  - Edition : Au-delà des portes :
+    - Ingénieure de la Fonderie : 3
+    - Chroniqueuse Lyra : 2
 
-MUNA : 
-Abreuver x2 = 2
-Aja x3 = 3
-Scrambler x3 = 3
-Cernunnos x2 = 3
-Champi eternueur x1 = 3
-Chiron x2 = 2
-Danseuse d'étoffe x1 = 1
-Dracaena x2 = 2
-Druide muna x3 = 3
-Elementaire kelon x2 = 2
-A capella x 2 = 2
-Entrainement méditation x1 = 1
-Entrainement mécanique x1 = 1
-Esmeralda x1 = 1
-Mana eruption x1 = 1
-Festival Lyra x1 = 4
-Fille yggdrasil x2 = 4
-Fils yggdrasil x1+1 = 3
-Ganesh x2 = 2
-Issun x1 = 1
-Kakoba x2 = 2
-Kitsune x2 = 2
-Kodama x1+1 = 7
-Fuseau bastion x1 = 3
-Monolith bastion x2 = 2
-Loki x2 = 2
-Marchand muna x1 = 1
-Moisson de mana x2 = 2
-Ogun x1 = 3
-Pignon pugnace x1 = 1
-Prairie prolifique x3 = 3
-Quetzacoaltl x3 = 3
-Recycleur axiom x3 = 3
-Soigneuse muna x1 = 1
-Sommeil réparateur x2 = 2
-Wukong x1 = 1
-Vertechine x2 = 2
-Yongsu x1 = 1
-Total Muna : 85€
+  - Edition : Épreuve du froid :
+    - Bottes Techniques : 1
+    - Vaike, l'Énergéticienne : 1
+    - Radiateur Kélonique : 2
+    - Galeries Saisies par les Glaces : 2
+    - Col Saisi par les Glaces : 3
+    - Le Nilam, Arbre-Monde Flétri : 3
+    - Recycleur Gelé : 3
 
-Total commande : 253€
+  - Edition : Les Graines de l'Unité :
+    - Masque de Chevaucheur : 3
+    - Ira, Participant à la Foire : 3
+    - Nikola Tesla : 1
+    - Unité Fab Lab : 1
+    - Attrape-Phalènes : 2
+    - Distribubot : 3
+    - Léonard de Vinci : 2
+    - Machiniste Axiom : 3
+    - Rencontre au Marché : 3
+    - Tik-Tok : 3
+    - Démonstration Ratée : 1
+    - L'Hôte : 1
+    - Nimbo-Instructeur : 2
+    - Aérosurfeur Bravos : 2
+    - Vigie Bravos : 3
+    - Chasseur de Hextag : 2
+    - Rencontre Technologique : 3
+    - Kedarm : 3
+    - Louis Sullivan : 2
+    - Magnat Reka : 2
+    - Pêcheur Reka : 3
+    - Bioingénieure Reka : 3
+    - Le Consortium : 1
+    - Le Consulat : 2
+    - Talos : 1
+    - Les Retrouvailles : 2
+
+  - Edition : Murmures du Labyrinthe :
+    - Botfix : 3
+    - Renifleur de Sève : 3
+    - Tasse de Sève : 1
+    - Drone Designer : 3
+    - Petit Cuistot : 1
+    - Excavateur Bravos : 2
+    - La Raffinerie : 1
+    - Les Grems : 3
+    - Unité Lab Tech : 1
+    - Claviériste de Bliss : 2
+    - Drone Ratisseur : 3
+    - Taupetaraude : 1
+    - Évanescence : 2
+    - Cabas à Scara : 1
+    - Gestionnaire de Pénurie : 1
+    - Infirmière Yzmir : 1
+    - Aby, Livreuse de Sève : 1
+    - Commis du Personnel : 1
+    - Extracteur de Sève : 1
+    - Les Flèches du Nilam : 1
+    - Templier de l'Aegis : 2
+    - Icare : 1
+    - Batteur de Bliss : 3
+    - Débordement de Sève : 2
+    - Hestia : 3
+    - Efrén, Marionnettiste : 2
+    - Mesektet : 2
+    - Prototype Amélioré : 1
+    - Merlin : 2
+    - Djinn Fulgurant : 1
+
+  - Edition : Odyssée des cieux :
+    - Gavroche : 2
+    - Ondine : 2
+    - Acolyte Studieux : 2
+    - Bessie Coleman : 1
+    - Bonnet-Bleu : 2
+    - Chantier Naval Volant : 2
+    - Dépôt Abandonné : 2
+    - Expert en Démolition : 2
+    - Kali : 3
+    - La Tortue : 2
+    - L'Opéra : 1
+    - Marie Curie : 2
+    - Navette des Scarabots : 2
+    - Paju, Pilote Axiom : 2
+    - Récif d'Aérolithe : 3
+    - Station de Réapprovisionnement : 1
+    - Djinn Ardent : 1
+    - Singe Ailé : 2
+    - Marionnettiste Axiom : 1
+    - Nymphe des Montagnes : 2
+    - Carrière d'Aérolithe : 2
+    - Couveuse des Scarabots : 3
+    - FarFetch 2.0 : 2
+    - Parachutiste en Wingsuit : 2
+    - Phileas Fogg : 1
+    - Sceau Axiom : 1
+    - Sceau Lyra : 2
+    - Méduse : 1
+    - Alelo, Léviathan Énigmatique : 1
+    - Détonation : 3
+    - Priya, Signaleuse Bravos : 2
+    - Beowulf : 1
+    - Lucan, Léviathan Affamé : 1
+
+Nombre de cartes dans la faction : 188
+Total de la faction : 122.5€
+
+- Faction : Bravos
+
+  - Edition : Au-delà des portes :
+    - Canalisation de Mana : 2
+
+  - Edition : Épreuve du froid :
+
+  - Edition : Les Graines de l'Unité :
+    - Masque de Chevaucheur : 2
+    - Écureuil Volant : 1
+    - Ira, Participant à la Foire : 1
+    - Botaniste Muna : 1
+    - Rencontre Sportive : 1
+    - Isabel Letham : 2
+    - Loi de Newton : 2
+    - L'Hôte : 3
+    - Nimbo-Instructeur : 3
+    - Skipper Reka : 3
+    - Aérosurfeur Bravos : 1
+    - Vigie Bravos : 3
+    - Colporteur Reka : 2
+    - Hespéride : 2
+    - Agronome Reka : 1
+    - Dioclès, Aurige : 2
+    - Entraîneur de Havre : 3
+    - Frère Disparu : 2
+    - Kedarm : 3
+    - Magnat Reka : 2
+    - Temps Mort ! : 1
+    - Pêche du Jour : 1
+    - Pêcheur Reka : 3
+    - Thomas Edison : 1
+    - Fils du Naos : 2
+    - DJ Lyra : 2
+
+  - Edition : Murmures du Labyrinthe :
+    - Fouisseur Nouch : 2
+    - Renifleur de Sève : 3
+    - Tasse de Sève : 1
+    - Infusion de Sève : 2
+    - Fan de Bliss : 1
+    - Poignantes Retrouvailles : 1
+    - Bis : 1
+    - Corgi Câline : 2
+    - Dissémination de Sève : 2
+    - Duel de Cran : 2
+    - Le Mess : 1
+    - Le Sépulcre des Sages : 2
+    - Les Grems : 3
+    - Nourrissement : 2
+    - Pendekar Bravos : 3
+    - Porteuse d'Esprit : 3
+    - Excavateur Bravos : 3
+    - Gestionnaire de Pénurie : 1
+    - Dédale : 2
+    - Skateuse Talarienne : 3
+    - Chef Pâtissier : 3
+    - Fiore dei Liberi : 2
+    - Hestia : 3
+    - Aoife, Avatar de Feu : 2
+    - Hydre de Lerne : 1
+    - Prototype Amélioré : 1
+    - Djinn Fulgurant : 1
+    - L'Affamé : 2
+
+  - Edition : Odyssée des cieux :
+    - Grenouille Bondissante : 2
+    - L'Intervention de Kauri : 2
+    - Rage : 2
+    - Station de Réapprovisionnement : 1
+    - Champ de Laine : 2
+    - Guetteur de Léviathans : 2
+    - Guide de Montagne : 2
+    - L'Atelier de Peinture : 3
+    - Parlement des Cendres : 3
+    - Partenaire d'Altrun : 2
+    - Tengu : 2
+    - Djinn Ardent : 2
+    - Nout : 1
+    - Suha, Opératrice du Qorgan : 2
+    - Acrobate Aérienne Lyra : 2
+    - Chantier Naval Volant : 2
+    - Coucou Chamarré : 2
+    - Harponneuse Bravos : 1
+    - La Chasse de Sol : 1
+    - Le Lièvre : 1
+    - Parachutiste en Wingsuit : 3
+    - Phileas Fogg : 2
+    - Sceau Yzmir : 1
+    - Méduse : 2
+    - Koï, Léviathan Espiègle : 2
+    - Priya, Signaleuse Bravos : 2
+    - Beowulf : 2
+    - Éris : 1
+    - Sceau Bravos : 2
+    - Yanna, Agent du Qorgan : 3
+    - Odyssée des Cieux : 2
+    - Tāne : 2
+    - Destins Liés : 2
+    - Halua, Léviathan Déchaîné : 1
+
+Nombre de cartes dans la faction : 171
+Total de la faction : 110.5€
+
+- Faction : Lyra
+
+  - Edition : Au-delà des portes :
+    - Entraînement Magique : 2
+    - Le Marchand de Sable : 2
+    - Alice : 3
+    - Cernunnos : 1
+    - Puissant Jinn : 1
+    - Robin des Bois : 3
+    - Petit Pas, Bond de Géant : 2
+    - Loki : 2
+    - Hydracaena : 2
+
+  - Edition : Épreuve du froid :
+    - Tenue Hivernale : 1
+    - Taïga Saisie par les Glaces : 2
+    - Feu Follet : 1
+
+  - Edition : Les Graines de l'Unité :
+    - Casque Reka : 1
+    - Barmaid Reka : 1
+    - Démonstration Ratée : 2
+    - Galatée : 2
+    - Glissecorde Reka : 3
+    - Guide Reka : 3
+    - Isabel Letham : 1
+    - Nyala, Fêtarde Nocturne : 3
+    - Pinocchio : 1
+    - Station de Téléphérique : 2
+    - Don Juan : 3
+    - Chat du Cheshire : 2
+    - Rencontre Spirituelle : 1
+    - Spécialiste de l'Urbex : 3
+    - Dapeng : 3
+    - Flore, Maraîchère Furieuse : 1
+    - Mochizuki Chiyome : 3
+    - Rencontre Injuste : 2
+    - Videur de Boîte de Nuit : 1
+    - Gardien de Nuit de l'Auberge : 2
+    - L'Ambassade : 1
+    - Rose Bonbon : 1
+    - Serveuse Reka : 3
+    - Touché ! : 3
+    - DJ Lyra : 2
+    - Coup de Grâce : 2
+    - Rencontre Romantique : 2
+    - Simulateur : 2
+
+  - Edition : Murmures du Labyrinthe :
+    - Griffonneur Étoilé : 2
+    - Fan de Bliss : 2
+    - Poignantes Retrouvailles : 1
+    - Bis : 1
+    - Duel de Cran : 2
+    - Duende de Sève : 1
+    - Flore, Maraîchère Attentive : 2
+    - La Raffinerie : 1
+    - La Scène : 1
+    - Le Sous-Bois : 2
+    - Métamorphose : 1
+    - Unité Lab Tech : 1
+    - Bassiste de Bliss : 1
+    - Claviériste de Bliss : 2
+    - Contorsionniste Lyra : 2
+    - Drone Ratisseur : 3
+    - Requiem : 3
+    - Tatoueur Yzmir : 2
+    - Dédale : 3
+    - La Petite Souris : 3
+    - Lakshmi : 3
+    - Le Wayfarer : 1
+    - Marqué d'une Croix : 1
+    - Arawn : 2
+    - Batteur de Bliss : 3
+    - Efrén, Marionnettiste : 2
+    - Hydre de Lerne : 1
+    - Le Minotaure : 1
+    - L'Homme dans le Labyrinthe : 2
+
+  - Edition : Odyssée des cieux :
+    - Gavroche : 1
+    - Grenouille Bondissante : 3
+    - Vent d'Ouest : 2
+    - Mélusine : 2
+    - Cartographe Lyra : 2
+    - Champignon Collant : 2
+    - Compter les Moutons : 2
+    - Guide de Montagne : 1
+    - Le Puits des Larmes : 2
+    - L'Origamium : 2
+    - Nymphe des Forêts : 1
+    - Parlement des Cendres : 1
+    - Partenaire d'Altrun : 2
+    - Bénédiction de la Cartographe : 2
+    - Nout : 1
+    - Shiva : 2
+    - Nymphe des Mers : 2
+    - Nymphe des Montagnes : 1
+    - Daikokuten : 2
+    - Doppelgänger : 2
+    - Harponneuse Bravos : 2
+    - La Chasse de Sol : 2
+    - Lavage de Cerveau : 2
+    - Sceau Lyra : 1
+    - Sceau Muna : 2
+    - Koï, Léviathan Espiègle : 2
+    - L'Atelier de Peinture : 2
+    - Perdu dans le Courant : 2
+    - Lucan, Léviathan Affamé : 2
+    - Éris : 3
+    - Trahison : 1
+    - Fureur de Sakarabru : 2
+
+Nombre de cartes dans la faction : 188
+Total de la faction : 122.0€
+
+- Faction : Muna
+
+  - Edition : Au-delà des portes :
+    - Esmeralda : 1
+
+  - Edition : Épreuve du froid :
+    - Tenue Hivernale : 2
+    - Jack Frost : 2
+    - Perséphone : 3
+    - Taïga Saisie par les Glaces : 3
+
+  - Edition : Les Graines de l'Unité :
+    - Botaniste Muna : 3
+    - Harry Houdini : 1
+    - Aire de Pique-nique : 3
+    - Loi de Newton : 3
+    - Pinocchio : 1
+    - Plongeuse Serviable : 2
+    - Reka Charitable : 2
+    - Vendeur de souvenirs : 2
+    - Don Juan : 2
+    - Pêche du Jour : 2
+    - Colporteur Reka : 3
+    - Hespéride : 1
+    - Milady de Winter : 2
+    - Rencontre Spirituelle : 3
+    - Spécialiste de l'Urbex : 2
+    - Agronome Reka : 1
+    - Fille du Naos : 3
+    - Flore, Maraîchère Furieuse : 3
+    - Frère Disparu : 3
+    - Investisseur Reka : 1
+    - L'Infirmerie : 1
+    - Gardien de Nuit de l'Auberge : 1
+    - L'Ambassade : 2
+    - Néphélé : 3
+    - Arbitre Partiale : 2
+    - Fils du Naos : 1
+    - Le Naos : 1
+
+  - Edition : Murmures du Labyrinthe :
+    - Fouisseur Nouch : 2
+    - Beillerave : 2
+    - Contorsionniste Lyra : 2
+    - Corgi Câline : 2
+    - Dissémination de Sève : 2
+    - Duende de Sève : 1
+    - Flore, Maraîchère Attentive : 3
+    - La Ferme : 2
+    - Le Ragoût : 2
+    - Le Sous-Bois : 2
+    - Pasiphaé : 1
+    - Pendekar Bravos : 3
+    - Renarde Intègre : 2
+    - Porteuse d'Esprit : 3
+    - Requiem : 3
+    - La Grand-Place : 2
+    - La Petite Souris : 2
+    - Leo, Expert en Reliques : 2
+    - Marqué d'une Croix : 1
+    - Nourrissement : 2
+    - Skateuse Talarienne : 3
+    - Arawn : 2
+    - Ariane : 2
+    - Essaim de Libellumines : 2
+    - Grand Bois : 2
+    - Aoife, Avatar de Feu : 3
+    - Le Minotaure : 2
+    - Simurgh : 2
+    - Thésée : 1
+
+  - Edition : Odyssée des cieux :
+    - Envol : 1
+    - Le Vilain Petit Canard : 2
+    - L'Intervention de Kauri : 2
+    - Rouge-gorge Rancunier : 2
+    - Caladrius : 1
+    - Cartographe Lyra : 2
+    - Champ de Laine : 2
+    - Champignon Collant : 2
+    - Dodo Dormeur : 2
+    - Émissaire Ordis : 2
+    - Gargouille : 2
+    - Grue Migratrice : 1
+    - Mandjet : 2
+    - Nymphe des Forêts : 2
+    - Pan : 2
+    - Pélican Serviable : 3
+    - Troupière Élevée : 2
+    - Bénédiction de la Cartographe : 2
+    - Appât : 2
+    - Compter les Moutons : 2
+    - Coucou Chamarré : 2
+    - Daikokuten : 3
+    - Eru, Émissaire de la Nature : 1
+    - Oiseau Cuirassé : 2
+    - Sceau Muna : 3
+    - Sceau Ordis : 2
+    - Vouivre : 2
+    - Juste Ciel ! : 1
+    - Le Défi de Puff : 2
+    - Zaratan, Léviathan Sociable : 1
+    - Tāne : 1
+    - Halua, Léviathan Déchaîné : 2
+    - Nikè : 2
+    - Destins Liés : 1
+
+Nombre de cartes dans la faction : 188
+Total de la faction : 121.0€
+
+- Faction : Ordis
+
+  - Edition : Au-delà des portes :
+    - Mécanicienne de la Fonderie : 2
+    - Procuratrice Ordis : 3
+    - Ouvrez les Portes : 2
+
+  - Edition : Épreuve du froid :
+    - Armurerie Mobile : 1
+    - Jack Frost : 3
+    - Geyser : 1
+
+  - Edition : Les Graines de l'Unité :
+    - Casque Reka : 1
+    - Novice Studieux : 3
+    - Aire de Pique-nique : 3
+    - Distribubot : 2
+    - Galatée : 2
+    - Glissecorde Reka : 2
+    - Léonard de Vinci : 3
+    - Machiniste Axiom : 1
+    - Mécène Reka : 1
+    - Reka Charitable : 1
+    - Touriste Ordis : 2
+    - Commerçant Reka : 3
+    - Supporter Reka : 1
+    - Fille du Naos : 3
+    - Investisseur Reka : 1
+    - Louis Sullivan : 2
+    - Réceptionniste Inflexible : 3
+    - Rencontre Injuste : 1
+    - Sunisa, Garde du Corps Ordis : 1
+    - Vendeur de souvenirs : 1
+    - Foule en Colère : 3
+    - Le Consortium : 2
+    - Serveuse Reka : 1
+    - Le Consulat : 1
+    - Talos : 3
+    - Les Retrouvailles : 1
+    - Le Naos : 1
+    - Kikimora : 2
+
+  - Edition : Murmures du Labyrinthe :
+    - Botfix : 3
+    - Drone Designer : 3
+    - Beillerave : 2
+    - Crieur Ordis : 1
+    - Cabas à Scara : 2
+    - Commis du Personnel : 1
+    - Conscription : 2
+    - Retrait de Licence : 2
+    - Testament de Rune : 2
+    - Comptable Ordis : 1
+    - Taupetaraude : 3
+    - Indic du Qorgan : 1
+    - Aby, Livreuse de Sève : 1
+    - Fiore dei Liberi : 2
+    - La Ferme : 2
+    - La Grand-Place : 2
+    - Le Wayfarer : 1
+    - Templier de l'Aegis : 2
+    - Régisseuse Ordis : 2
+    - Festin de Pensées : 2
+    - Entomologiste Yzmir : 1
+    - Ariane : 2
+    - Débordement de Sève : 2
+    - Essaim de Libellumines : 2
+    - Inspecteur Sanitaire : 2
+    - Leo, Expert en Reliques : 1
+    - Mesektet : 2
+    - Sylas, Sorcier Insondable : 2
+    - Grand Bois : 2
+    - Simurgh : 3
+
+  - Edition : Odyssée des cieux :
+    - Envol : 3
+    - Le Vilain Petit Canard : 2
+    - Rouge-gorge Rancunier : 2
+    - Vent d'Ouest : 1
+    - Mélusine : 1
+    - Dodo Dormeur : 1
+    - Émissaire Ordis : 1
+    - Gargouille : 2
+    - Grue Migratrice : 2
+    - L'Origamium : 2
+    - Pan : 1
+    - Pélican Serviable : 2
+    - Récif d'Aérolithe : 2
+    - Tengu : 2
+    - Troupière Élevée : 2
+    - Vigile Ordis : 2
+    - Bonnet-Bleu : 2
+    - Doppelgänger : 1
+    - Eru, Émissaire de la Nature : 2
+    - Mandjet : 2
+    - Navette des Scarabots : 3
+    - Oiseau Cuirassé : 1
+    - Sceau Axiom : 1
+    - Sceau Ordis : 2
+    - Collision de Phalènes : 2
+    - Couveuse des Scarabots : 1
+    - Détonation : 2
+    - Juste Ciel ! : 2
+    - Apparition de Phalène : 2
+    - Yanna, Agent du Qorgan : 2
+    - Zaratan, Léviathan Sociable : 2
+    - Sagitta, Léviathan Céleste : 2
+    - Nikè : 2
+    - Odyssée des Cieux : 2
+
+Nombre de cartes dans la faction : 180
+Total de la faction : 115.5€
+
+- Faction : Yzmir
+
+  - Edition : Au-delà des portes :
+    - Méduse Lunaire : 3
+    - Soigneuse Muna : 2
+    - Troupière Ordis : 2
+    - Mage-Danseur du Kadigir : 2
+    - L'Isba de Baba : 1
+    - Red : 1
+    - Baku : 1
+    - Furie du Kraken : 1
+
+  - Edition : Épreuve du froid :
+    - Armurerie Mobile : 2
+    - Larve de Phalène : 1
+    - Tour de Passe-Passe : 3
+    - Virée Endiablée : 2
+    - Chrysalide : 2
+    - Lanterne aux Phalènes : 3
+    - Pamola : 2
+    - Vaike, l'Énergéticienne : 1
+    - Belasenka : 2
+    - Amarok : 3
+    - Blizzard : 1
+    - Nuée de Phalènes : 2
+
+  - Edition : Les Graines de l'Unité :
+    - Novice Studieux : 3
+    - Rencontre Sportive : 2
+    - Barmaid Reka : 3
+    - Le Lutrin : 3
+    - Mascotte d'Équipe : 2
+    - Mécène Reka : 2
+    - Nyala, Fêtarde Nocturne : 3
+    - Tik-Tok : 1
+    - Chasseur de Hextag : 2
+    - Chat du Cheshire : 1
+    - Supporter Reka : 3
+    - Entraîneur de Havre : 2
+    - L'Infirmerie : 1
+    - Mochizuki Chiyome : 2
+    - Sunisa, Garde du Corps Ordis : 1
+    - Temps Mort ! : 1
+    - Videur de Boîte de Nuit : 2
+    - Rencontre Technologique : 3
+    - Bioingénieure Reka : 1
+    - Foule en Colère : 3
+    - Phalène Illusoire : 2
+    - Touché ! : 3
+    - Coup de Grâce : 1
+    - Réceptionniste Inflexible : 1
+
+  - Edition : Murmures du Labyrinthe :
+    - Griffonneur Étoilé : 2
+    - Crieur Ordis : 1
+    - Infusion de Sève : 2
+    - Conscription : 2
+    - La Scène : 1
+    - Le Mess : 1
+    - Le Sépulcre des Sages : 2
+    - Métamorphose : 1
+    - Pasiphaé : 2
+    - Renarde Intègre : 1
+    - Retrait de Licence : 2
+    - Testament de Rune : 2
+    - Bassiste de Bliss : 1
+    - Tatoueur Yzmir : 1
+    - Évanescence : 1
+    - Entomologiste Yzmir : 1
+    - Indic du Qorgan : 1
+    - Infirmière Yzmir : 1
+    - Extracteur de Sève : 1
+    - Lakshmi : 3
+    - Les Flèches du Nilam : 2
+    - Chef Pâtissier : 3
+    - Régisseuse Ordis : 2
+    - Festin de Pensées : 1
+    - Icare : 1
+    - Inspecteur Sanitaire : 2
+    - Sylas, Sorcier Insondable : 2
+    - Merlin : 2
+    - L'Homme dans le Labyrinthe : 2
+    - L'Affamé : 2
+
+  - Edition : Odyssée des cieux :
+    - Ondine : 1
+    - Rage : 2
+    - Acolyte Studieux : 2
+    - Caladrius : 2
+    - Bessie Coleman : 1
+    - Carrière d'Aérolithe : 2
+    - Dépôt Abandonné : 2
+    - Expert en Démolition : 2
+    - Kali : 2
+    - Le Puits des Larmes : 2
+    - Marie Curie : 2
+    - Paju, Pilote Axiom : 2
+    - Vigile Ordis : 2
+    - Shiva : 2
+    - Singe Ailé : 1
+    - Suha, Opératrice du Qorgan : 1
+    - Marionnettiste Axiom : 3
+    - Nymphe des Mers : 2
+    - Appât : 2
+    - FarFetch 2.0 : 1
+    - Lavage de Cerveau : 2
+    - Le Lièvre : 1
+    - Sceau Yzmir : 2
+    - Vouivre : 2
+    - Alelo, Léviathan Énigmatique : 2
+    - Collision de Phalènes : 3
+    - Perdu dans le Courant : 3
+    - Apparition de Phalène : 2
+    - Sceau Bravos : 1
+    - Sagitta, Léviathan Céleste : 2
+    - Trahison : 2
+    - Fureur de Sakarabru : 2
+
+Nombre de cartes dans la faction : 193
+Total de la faction : 120.5€
+
+
+Au total, 1108 cartes pour 712.0€

@@ -101,7 +101,7 @@ def GenererPlanFils(NbClous, DicoFils, NbMaxFils, FunPerte, ImgBase, ImgPoids, F
     for fil1 in range(NbClous - 1):
         for fil2 in range(fil1 + 1, NbClous):
             Xs, Ys, Vals = DicoFils[fil1][fil2]
-            GainTemp = round(FctPerte(ImgBase[Xs, Ys], ImgRecons[Xs, Ys], ImgPoids[Xs, Ys], FunPerte) - FctPerte(ImgBase[Xs, Ys], np.clip(ImgRecons[Xs, Ys] + Mult * Vals), ImgPoids[Xs, Ys], FunPerte), 3)
+            GainTemp = round(FctPerte(ImgBase[Xs, Ys], ImgRecons[Xs, Ys], ImgPoids[Xs, Ys], FunPerte) - FctPerte(ImgBase[Xs, Ys], np.clip(ImgRecons[Xs, Ys] + Mult * Vals, 0, 1), ImgPoids[Xs, Ys], FunPerte), 3)
             if GainTemp > CurGain:
                 CurGain = GainTemp
                 FilG = fil1
@@ -114,7 +114,7 @@ def GenererPlanFils(NbClous, DicoFils, NbMaxFils, FunPerte, ImgBase, ImgPoids, F
     Chemin.append(CurFil[0])
     Chemin.append(CurFil[1])
     CurFil = CurFil[1]
-    ImgRecons[CurXs, CurYs] = np.clip(ImgRecons[CurXs, CurYs] + Mult * CurVals)
+    ImgRecons[CurXs, CurYs] = np.clip(ImgRecons[CurXs, CurYs] + Mult * CurVals, 0, 1)
     print(f"Premier fil entre le clou {str(FilG)} et le clou {str(FilD)} avec maintenant une erreur de {str(Erreur)} ! Début de la recherche des fils suivants...")
 
     # Maintenant il faut trouver les fils suivants en continuant le fil déjà tendu
